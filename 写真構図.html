@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webデザインを劇的に変える！写真構図12選 データアナリティクス</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .composition-shape {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            background-color: #1e293b;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .grid-thirds {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            width: 100%;
+            height: 100%;
+        }
+        .grid-thirds div {
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        .point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #ec4899;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .line-accent {
+            position: absolute;
+            background-color: #ec4899;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 font-bold text-xl tracking-wider text-cyan-400">
+                    COMPOSITION<span class="text-pink-500">.</span>ANALYTICS
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative pt-20 pb-16 md:pt-32 md:pb-24 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-900 to-slate-900 z-0"></div>
+        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#06b6d4 1px, transparent 1px); background-size: 30px 30px;"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+                Webサイトのファーストビューに活きる<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500">写真構図の視覚的効果</span>
+            </h1>
+            <p class="mt-4 text-xl text-slate-300 max-w-3xl mx-auto">
+                ユーザーの視線を釘付けにし、ブランドのストーリーを瞬時に伝える。厳選された12の写真構図がもたらす心理的・視覚的インパクトをデータと図解で紐解きます。
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 space-y-24">
+
+        <section id="overview">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">構図がもたらす3つの主要効果</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">12の構図は、大きく分けて「安定感」「視線誘導」「躍動感」のいずれかの効果を最大化するために用いられます。プロジェクトの目的に合わせて最適なカテゴリを選択することが重要です。</p>
+            </div>
+            
+            <div class="bg-slate-800 rounded-2xl shadow-xl p-6 md:p-10 border border-slate-700">
+                <div class="chart-container">
+                    <canvas id="effectChart"></canvas>
+                </div>
+                <p class="mt-6 text-sm text-slate-400 text-center">各カテゴリに属する構図の数（当分析による分類）。視線を特定の箇所に集める「視線誘導」に特化した構図が多く存在することがわかります。</p>
+            </div>
+        </section>
+
+        <section id="compositions">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">覚えておきたい写真構図12選</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">各構図の特徴と、それらがWebデザイン上でどのように機能するかを解説します。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4">
+                        <div class="grid-thirds">
+                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        </div>
+                        <div class="point" style="top: 33.33%; left: 33.33%;"></div>
+                        <div class="point" style="top: 33.33%; left: 66.66%;"></div>
+                        <div class="point" style="top: 66.66%; left: 33.33%;"></div>
+                        <div class="point" style="top: 66.66%; left: 66.66%;"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">1. 三分割構図</h3>
+                    <p class="text-slate-300 text-sm">縦横を三分割し、交点に被写体を配置。余白が生まれ、空気感やストーリー性を演出できる王道構図。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4">
+                        <div class="absolute inset-0 flex flex-col">
+                            <div class="flex-1 bg-cyan-900/30"></div>
+                            <div class="flex-1 bg-blue-900/30 border-t-2 border-pink-500"></div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">2. 二分割構図</h3>
+                    <p class="text-slate-300 text-sm">画面を均等に二分する構図。水平線や垂直線を強調でき、海や空などの広大な風景に適している。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4">
+                        <div class="w-16 h-16 rounded-full border-4 border-pink-500 bg-pink-500/20"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">3. 日の丸構図</h3>
+                    <p class="text-slate-300 text-sm">被写体を中央に配置。主題が最も際立ち、ユーザーに「何を見せたいか」がストレートに伝わる。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4">
+                        <div class="w-0 h-0 border-l-[40px] border-l-transparent border-r-[40px] border-r-transparent border-b-[60px] border-b-pink-500/50 relative">
+                            <div class="absolute w-0 h-0 border-l-[36px] border-l-transparent border-r-[36px] border-r-transparent border-b-[54px] border-b-slate-800 -left-[36px] top-[3px]"></div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">4. 三角構図</h3>
+                    <p class="text-slate-300 text-sm">画の中に三角形を作る配置。奥行きと強い安定感を生み出す。逆三角形で不安定さを演出することも可能。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4 relative overflow-hidden">
+                        <div class="absolute w-full h-[2px] bg-pink-500 top-1/2 left-0 transform -translate-y-1/2 rotate-45"></div>
+                        <div class="absolute w-full h-[2px] bg-pink-500 top-1/2 left-0 transform -translate-y-1/2 -rotate-45"></div>
+                        <div class="absolute w-full h-[2px] bg-pink-500 top-1/2 left-0 transform -translate-y-1/2 rotate-12"></div>
+                        <div class="absolute w-full h-[2px] bg-pink-500 top-1/2 left-0 transform -translate-y-1/2 -rotate-12"></div>
+                        <div class="absolute w-4 h-4 bg-white rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">5. 放射線構図</h3>
+                    <p class="text-slate-300 text-sm">一点から放射状に線が伸びる構図。強烈な奥行きと広がりがあり、躍動感や迫力を視覚的に表現できる。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4">
+                        <div class="w-[150%] h-[2px] bg-pink-500 transform rotate-[-20deg]"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">6. 対角線構図</h3>
+                    <p class="text-slate-300 text-sm">対角線上に要素を配置。バランスを保ちながらも、画面全体にダイナミックな印象と動きの軌跡を作る。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4 flex-col gap-0">
+                         <div class="w-16 h-8 border-t-4 border-l-4 border-pink-500 rounded-tl-full"></div>
+                         <div class="w-16 h-8 border-b-4 border-r-4 border-pink-500 rounded-br-full ml-16 transform -translate-y-1"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">7. S字構図</h3>
+                    <p class="text-slate-300 text-sm">S字の曲線を配置。視線をなめらかに誘導し、優雅な動きと画面全体の調和（バランス）をもたらす。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4 justify-start pl-8">
+                        <div class="w-20 h-20 border-4 border-pink-500 rounded-full border-r-transparent transform rotate-45"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">8. C字構図</h3>
+                    <p class="text-slate-300 text-sm">被写体の一部を画面外にはみ出させ、Cの字を作る。料理を美味しく、ボリューム感たっぷりに見せる手法。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4 justify-between px-4">
+                        <div class="w-8 h-full bg-slate-700 border-r-2 border-pink-500"></div>
+                        <div class="w-10 h-10 bg-cyan-400 rounded-sm"></div>
+                        <div class="w-8 h-full bg-slate-700 border-l-2 border-pink-500"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">9. サンドイッチ構図</h3>
+                    <p class="text-slate-300 text-sm">手前の要素で被写体を挟み込む。枠（フレーム）の効果が働き、中央の被写体を強く際立たせる。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4 flex gap-2">
+                        <div class="w-12 h-16 border-2 border-pink-500 rounded-t-full"></div>
+                        <div class="w-[2px] h-full bg-slate-600"></div>
+                        <div class="w-12 h-16 border-2 border-pink-500 rounded-t-full"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">10. シンメトリー構図</h3>
+                    <p class="text-slate-300 text-sm">左右または上下が対称になる構図。圧倒的な安定感、神聖さ、または強いインパクトを与える。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4 gap-8">
+                        <div class="w-16 h-16 bg-pink-500 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.5)]"></div>
+                        <div class="w-6 h-6 bg-slate-600 rounded-full"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">11. 対比構図</h3>
+                    <p class="text-slate-300 text-sm">大小、明暗、色などで被写体を対比。メリハリが生まれ、それぞれの特徴を互いに引き立て合う。</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-cyan-500 transition-colors">
+                    <div class="composition-shape mb-4 grid grid-cols-4 grid-rows-2 gap-2 p-2">
+                        <div class="bg-pink-500/50 rounded-md"></div><div class="bg-pink-500/50 rounded-md"></div><div class="bg-pink-500/50 rounded-md"></div><div class="bg-pink-500/50 rounded-md"></div>
+                        <div class="bg-pink-500/50 rounded-md"></div><div class="bg-pink-500/50 rounded-md"></div><div class="bg-pink-500/50 rounded-md"></div><div class="bg-pink-500/50 rounded-md"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-cyan-400 mb-2">12. パターン構図</h3>
+                    <p class="text-slate-300 text-sm">同形状を連続配置。一定の規則性が視覚的なリズムを作り出し、非常に印象に残りやすい画面になる。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="analysis">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">主要構図のパラメーター比較</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Webデザインにおける使い勝手や、ユーザーに与える印象の強さをレーダーチャートで比較分析しました。用途に応じた使い分けの参考にしてください。</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-slate-800 rounded-2xl shadow-xl p-6 md:p-10 border border-slate-700 flex flex-col items-center">
+                    <h3 class="text-xl font-bold text-white mb-6 w-full text-left">代表的構図の特性プロファイル</h3>
+                    <div class="chart-container w-full">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-slate-800 rounded-2xl shadow-xl p-6 md:p-10 border border-slate-700 flex flex-col justify-center">
+                    <h3 class="text-xl font-bold text-white mb-4">分析インサイト</h3>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-cyan-900 text-cyan-400 flex items-center justify-center font-bold mr-4 mt-1">1</span>
+                            <div>
+                                <h4 class="text-lg font-bold text-cyan-400">三分割の圧倒的汎用性</h4>
+                                <p class="text-slate-300 text-sm mt-1">三分割構図は「使いやすさ」と「汎用性」で群を抜いています。テキストを配置する余白を自然に作り出せるため、ファーストビューの背景として最も失敗が少ない選択です。</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-pink-900 text-pink-400 flex items-center justify-center font-bold mr-4 mt-1">2</span>
+                            <div>
+                                <h4 class="text-lg font-bold text-pink-400">日の丸による強烈なメッセージ性</h4>
+                                <p class="text-slate-300 text-sm mt-1">プロダクトや人物など、特定の被写体を強くアピールしたい場合は日の丸構図の「インパクト」が有効です。ただし周囲にテキストを置くスペースが限られる点に注意が必要です。</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-900 text-blue-400 flex items-center justify-center font-bold mr-4 mt-1">3</span>
+                            <div>
+                                <h4 class="text-lg font-bold text-blue-400">対角線がもたらすストーリー</h4>
+                                <p class="text-slate-300 text-sm mt-1">静的なWebサイトに「動き（躍動感）」をもたらすには対角線構図が適しています。視線を左上から右下へ誘導するなど、ユーザーの閲覧フローに合わせた設計が可能です。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="correlation" class="pb-12">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">安定感 vs 躍動感のマッピング</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">12の構図を「安定感（静）」と「躍動感（動）」の軸でマッピングしました。ブランドのトーン＆マナーに合った領域から構図を選択できます。</p>
+            </div>
+            <div class="bg-slate-800 rounded-2xl shadow-xl p-6 md:p-10 border border-slate-700">
+                <div class="chart-container" style="max-width: 900px;">
+                    <canvas id="scatterChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 border-t border-slate-800 py-12 text-center text-slate-500">
+        <p>© 2026 Composition Analytics. Data Visualization SPA.</p>
+    </footer>
+
+    <script>
+        const chartColors = {
+            cyan: 'rgba(6, 182, 212, 0.8)',
+            cyanBorder: 'rgb(6, 182, 212)',
+            pink: 'rgba(236, 72, 153, 0.8)',
+            pinkBorder: 'rgb(236, 72, 153)',
+            blue: 'rgba(30, 58, 138, 0.8)',
+            blueBorder: 'rgb(59, 130, 246)',
+            slate: 'rgba(148, 163, 184, 0.8)',
+            text: '#f8fafc',
+            grid: 'rgba(51, 65, 85, 0.5)'
+        };
+
+        const globalChartOptions = {
+            color: chartColors.text,
+            plugins: {
+                legend: {
+                    labels: { color: chartColors.text, font: { family: "'Noto Sans JP', sans-serif" } }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleFont: { family: "'Noto Sans JP', sans-serif", size: 14 },
+                    bodyFont: { family: "'Noto Sans JP', sans-serif", size: 13 },
+                    padding: 12,
+                    borderColor: 'rgba(51, 65, 85, 1)',
+                    borderWidth: 1,
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        const effectCtx = document.getElementById('effectChart').getContext('2d');
+        new Chart(effectCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    ['視線を一点に集中させる', '（日の丸、サンドイッチ等）'], 
+                    ['画面に安定と調和をもたらす', '（二分割、シンメトリー等）'], 
+                    ['躍動感と奥行きを生み出す', '（放射線、対角線等）']
+                ],
+                datasets: [{
+                    data: [5, 4, 3],
+                    backgroundColor: [chartColors.pink, chartColors.cyan, chartColors.blue],
+                    borderColor: '#1e293b',
+                    borderWidth: 2,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...globalChartOptions,
+                plugins: {
+                    ...globalChartOptions.plugins,
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: chartColors.text, padding: 20 }
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+
+        const radarCtx = document.getElementById('radarChart').getContext('2d');
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['インパクト', '安定感', '躍動感・動き', 'テキスト配置の容易さ', '汎用性'],
+                datasets: [
+                    {
+                        label: '三分割構図',
+                        data: [6, 8, 5, 10, 10],
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        borderColor: chartColors.cyanBorder,
+                        pointBackgroundColor: chartColors.cyanBorder,
+                        borderWidth: 2
+                    },
+                    {
+                        label: '日の丸構図',
+                        data: [10, 9, 2, 4, 6],
+                        backgroundColor: 'rgba(236, 72, 153, 0.2)',
+                        borderColor: chartColors.pinkBorder,
+                        pointBackgroundColor: chartColors.pinkBorder,
+                        borderWidth: 2
+                    },
+                    {
+                        label: '対角線構図',
+                        data: [8, 4, 10, 7, 7],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: chartColors.blueBorder,
+                        pointBackgroundColor: chartColors.blueBorder,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...globalChartOptions,
+                scales: {
+                    r: {
+                        angleLines: { color: chartColors.grid },
+                        grid: { color: chartColors.grid },
+                        pointLabels: {
+                            color: chartColors.text,
+                            font: { size: 12, family: "'Noto Sans JP', sans-serif" }
+                        },
+                        ticks: {
+                            display: false,
+                            min: 0,
+                            max: 10
+                        }
+                    }
+                }
+            }
+        });
+
+        const scatterCtx = document.getElementById('scatterChart').getContext('2d');
+        new Chart(scatterCtx, {
+            type: 'bubble',
+            data: {
+                labels: ['シンメトリー', '二分割', '三角', '三分割', '日の丸', 'パターン', 'サンドイッチ', '対比', 'C字', 'S字', '対角線', '放射線'],
+                datasets: [{
+                    label: '構図特性',
+                    data: [
+                        {x: 10, y: 1, r: 15}, 
+                        {x: 9, y: 2, r: 10},  
+                        {x: 8, y: 3, r: 10},  
+                        {x: 7, y: 5, r: 20},  
+                        {x: 8, y: 2, r: 15},  
+                        {x: 6, y: 4, r: 10},  
+                        {x: 5, y: 4, r: 10},  
+                        {x: 5, y: 6, r: 10},  
+                        {x: 4, y: 7, r: 10},  
+                        {x: 3, y: 8, r: 10},  
+                        {x: 2, y: 9, r: 15},  
+                        {x: 1, y: 10, r: 15}  
+                    ],
+                    backgroundColor: function(context) {
+                        const val = context.raw;
+                        if (!val) return chartColors.cyan;
+                        if (val.x > 6) return chartColors.blue;
+                        if (val.y > 6) return chartColors.pink;
+                        return chartColors.cyan;
+                    },
+                    borderColor: 'rgba(255,255,255,0.2)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...globalChartOptions,
+                plugins: {
+                    ...globalChartOptions.plugins,
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].chart.data.labels[tooltipItems[0].dataIndex];
+                            },
+                            label: function(context) {
+                                return `安定感: ${context.raw.x}, 躍動感: ${context.raw.y}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: '← 動きがある / 安定感がある →', color: chartColors.text },
+                        grid: { color: chartColors.grid },
+                        min: 0, max: 11,
+                        ticks: { display: false }
+                    },
+                    y: {
+                        title: { display: true, text: '← 静的 / 躍動感がある →', color: chartColors.text },
+                        grid: { color: chartColors.grid },
+                        min: 0, max: 11,
+                        ticks: { display: false }
+                    }
+                }
+            }
+        });
+    </script>
+    
+    <!-- 
+      METADATA & COMPLIANCE SUMMARY
+      Palette: Brilliant Blues & Vibrant Accents (Primary: #1E3A8A, Secondary: #06B6D4, Accent: #EC4899)
+      SVG Usage: Explicitly confirmed that NO SVG graphics were used anywhere in this output. All icons/shapes are generated using HTML/CSS (Tailwind).
+      Mermaid JS Usage: Explicitly confirmed that Mermaid JS was NOT used.
+      Narrative Plan: 
+        1. Hook/Intro: Explain the importance of composition in Web First Views.
+        2. Overview (Donut Chart): Group the 12 items by primary goal (Focus, Stability, Movement).
+        3. Core Content (Grid): Present all 12 compositions using CSS-based graphical representations instead of images/SVGs to adhere to constraints, paired with their original descriptions.
+        4. In-Depth Analysis (Radar Chart): Compare popular compositions across key web design metrics.
+        5. Strategic Mapping (Bubble/Scatter Chart): Map all 12 on a 2D plane (Stability vs. Dynamics) to aid decision-making.
+      Visualization Choices:
+        - Goal: Organize/Overview -> Chosen: Doughnut Chart (Chart.js) -> Shows proportion of functional categories.
+        - Goal: Compare -> Chosen: Radar Chart (Chart.js) -> Compares multivariate qualitative traits of top 3 compositions.
+        - Goal: Relationships -> Chosen: Bubble Chart (Chart.js) -> Maps all compositions on a 2D axis of Stability vs. Movement.
+        - Goal: Inform/Illustrate -> Chosen: CSS Shapes -> Demonstrates the 12 visual patterns strictly without SVG.
+    -->
+</body>
+</html>
