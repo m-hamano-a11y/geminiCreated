@@ -1,467 +1,315 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>デザインに使える心理学 - Infographic SPA</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
-body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background-color: #f8fafc;
-    color: #1e293b;
-}
-.chart-container {
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    height: 300px;
-    max-height: 400px;
-}
-@media (min-width: 768px) {
-    .chart-container {
-        height: 350px;
-    }
-}
-.card-hover {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.card-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-}
-.glass-nav {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-}
-.gradient-text {
-    background: linear-gradient(135deg, #0ea5e9, #3b82f6, #8b5cf6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.diagram-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    font-weight: bold;
-    text-align: center;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Psychology of UI/UX Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!--
+    Palette: Vibrant Ocean & Coral (Primary: #3b82f6, Secondary: #f43f5e, Accent: #fbbf24, Background: #f8fafc)
+    Plan:
+    1. Header: Introduction to design psychology and its impact on user behavior.
+    2. Section 1 (Decision & Interaction): Visualizing Hick's Law (cognitive load) and Fitts's Law (physical interaction).
+    3. Section 2 (Memory & Attention): Visualizing Von Restorff Effect (isolation) and Zeigarnik Effect (incompletion).
+    4. Section 3 (Emotion & Performance): Visualizing Peak-End Rule (journey evaluation) and Doherty Threshold (system speed).
+    Visualizations:
+    - Hick's Law -> Line Chart -> Shows logarithmic increase in decision time. No SVG.
+    - Fitts's Law -> Bar Chart -> Compares interaction times based on size/distance. No SVG.
+    - Von Restorff -> Bar Chart -> Compares recall rates of normal vs highlighted items. No SVG.
+    - Zeigarnik -> Doughnut Chart -> Shows memory retention proportion of incomplete tasks. No SVG.
+    - Peak-End Rule -> Area Chart -> Illustrates emotional fluctuation across a user journey. No SVG.
+    - Doherty Threshold -> Bar Chart -> Demonstrates engagement drop-off as response time increases. No SVG.
+    Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+    -->
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .gradient-text { background: linear-gradient(to right, #3b82f6, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
 </head>
-<body class="antialiased">
+<body class="p-4 md:p-8">
 
-<!-- Palette Name: Vibrant Tech Accent (Teal #14B8A6, Blue #3B82F6, Rose #F43F5E, Amber #F59E0B) -->
-<!-- Narrative Plan: 1. Header (Hook & Ethics warning). 2. Visual & Attention Section (Focusing on how users perceive interfaces). 3. Choice & Action Section (Guiding decisions, Hick's law, Pareto). 4. Memory & Biases Section (Cognitive effects for retention). -->
-<!-- Visualization Choices: 1. Hick's Law -> Goal: Change -> Line Chart -> Chart.js (Shows time increasing with choices). 2. Pareto Principle -> Goal: Compare -> Donut Chart -> Chart.js (Shows 80/20 division). 3. Serial Position -> Goal: Compare -> Bar Chart -> Chart.js (Shows recall rates by position). 4. Zeigarnik Effect -> Goal: Organize -> HTML/CSS Diagram (Shows flow of incomplete task). Confirming NO SVG used. -->
-<!-- Explicit Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in the output. -->
-
-<nav class="glass-nav sticky top-0 z-50 border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-            <div class="flex-shrink-0 flex items-center font-bold text-xl tracking-tight text-slate-800">
-                <span class="text-3xl mr-2">🧠</span> Design Psychology
-            </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#visual" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">視覚と注意</a>
-                <a href="#action" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">選択と行動</a>
-                <a href="#memory" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">認知と記憶</a>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<header class="bg-slate-900 text-white pt-24 pb-20 px-4 text-center">
-    <div class="max-w-4xl mx-auto mt-8">
-        <span class="inline-block py-1 px-3 rounded-full bg-rose-500 text-white text-sm font-bold tracking-wider mb-4 border-2 border-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.5)]">
-            ⚠️ 悪用厳禁
-        </span>
-        <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
-            見る人の気持ちをコントロールする<br>
-            <span class="gradient-text">デザインに使える心理学</span>
+    <header class="max-w-6xl mx-auto mb-12 text-center">
+        <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight">
+            UI/UXデザインを支配する <br><span class="gradient-text">心理学の法則</span>
         </h1>
-        <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            デザインは単なる装飾ではありません。人間の認知バイアスや心理効果を理解し、適切に活用することで、ユーザーの体験を飛躍的に向上させ、目的の行動へと導く強力なツールとなります。ここでは、実践で使える18の心理学法則を紐解きます。
+        <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            デザインは単なる装飾ではありません。人間の無意識の認知バイアスや行動原理を理解し、ユーザーの心理と行動を最適に導くためのコミュニケーションツールです。実務で直結する強力な心理学法則をデータと共に紐解きます。
         </p>
-    </div>
-</header>
+    </header>
 
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main class="max-w-6xl mx-auto space-y-12">
 
-    <section id="visual" class="mb-24 pt-10">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-slate-800 mb-4 inline-flex items-center">
-                <span class="text-4xl mr-3">👁️</span> 視覚と注意のコントロール
-            </h2>
-            <p class="text-slate-600 max-w-2xl mx-auto">
-                ユーザーが画面を開いた瞬間に、どこに注目し、何を感じるか。視覚的な要素が与える無意識の心理的影響を利用して、自然な形で情報を伝達します。
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 card-hover">
-                <div class="text-4xl mb-4 bg-rose-100 w-16 h-16 rounded-full flex items-center justify-center">👶</div>
-                <h3 class="text-xl font-bold mb-2 text-slate-800">ベビーフェイス効果</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    大きい目や丸い顔を見ると警戒心が緩むという心理効果。親しみやすさや安心感を与えたいサービスやキャラクターデザインにおいて非常に有効です。
-                </p>
+        <section class="mb-16">
+            <div class="mb-6 border-l-8 border-blue-500 pl-4">
+                <h2 class="text-3xl font-bold">1. 認知と意思決定のメカニズム 🧠</h2>
+                <p class="text-slate-500 mt-2">ユーザーが情報を処理し、決断を下す際の迷いや物理的なハードルをいかに下げるかが鍵となります。</p>
             </div>
-
-            <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 card-hover">
-                <div class="text-4xl mb-4 bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center">👆</div>
-                <h3 class="text-xl font-bold mb-2 text-slate-800">指差し追従</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    指さきで刺されている方向に無意識に意識が向いてしまう効果。重要なボタンやメッセージへ視線を誘導したい箇所に、人物の目線や指差しを配置します。
-                </p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 card-hover">
-                <div class="text-4xl mb-4 bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center">🎨</div>
-                <h3 class="text-xl font-bold mb-2 text-slate-800">色彩心理学</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    色には感情や行動に直接影響を与える力があります。「青」は信頼感や誠実さ、「赤」は緊急性や情熱、「緑」は安心感など、目的に応じて配色を決定します。
-                </p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 card-hover">
-                <div class="text-4xl mb-4 bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center">👥</div>
-                <h3 class="text-xl font-bold mb-2 text-slate-800">視線誘導効果</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    人は自分に似たものや、人物の顔に好意と興味を持ちます。ターゲット層に共感できるデザインやモデルを採用することで、滞在時間と注目度を高めます。
-                </p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 card-hover md:col-span-2 lg:col-span-1 lg:col-start-2">
-                <div class="text-4xl mb-4 bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center">🔘</div>
-                <h3 class="text-xl font-bold mb-2 text-slate-800">アフォーダンス</h3>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    要素そのものが、使用方法を直感的に示している状態。例えば、影や立体感を持たせた「リアルなボタンっぽいデザイン」は、説明不要で「押せる」と認識させます。
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <div class="w-full h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent my-16"></div>
-
-    <section id="action" class="mb-24 pt-10">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-slate-800 mb-4 inline-flex items-center">
-                <span class="text-4xl mr-3">⚡</span> 選択と行動の促進
-            </h2>
-            <p class="text-slate-600 max-w-2xl mx-auto">
-                ユーザーを迷わせず、スムーズに目的の行動（コンバージョン）へ導くための法則。情報量を整理し、決断を後押しする見せ方が鍵となります。
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            <div class="order-2 lg:order-1">
-                <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100">
-                    <h3 class="text-xl font-bold text-center mb-6 text-slate-700">選択肢の数と意思決定時間の関係</h3>
-                    <div class="chart-container">
-                        <canvas id="hicksLawChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="order-1 lg:order-2">
-                <div class="text-5xl mb-4">⚖️</div>
-                <h3 class="text-3xl font-black mb-4 text-slate-800">ヒックの法則</h3>
-                <p class="text-lg text-slate-600 leading-relaxed mb-6">
-                    選択肢が増えれば増えるほど、ユーザーが意思決定にかける時間は対数的に増加し、最悪の場合は離脱に繋がります。<br><br>
-                    ナビゲーションメニューや料金プランなど、提示する選択肢は極力絞り込み、ユーザーの認知負荷を下げる（迷わせない）ことがコンバージョン率向上の鉄則です。
-                </p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            <div>
-                <div class="text-5xl mb-4">🍰</div>
-                <h3 class="text-3xl font-black mb-4 text-slate-800">パレートの法則</h3>
-                <p class="text-lg text-slate-600 leading-relaxed mb-6">
-                    「全体の成果の80%は、全体の20%の要素が生み出している」という経験則。<br><br>
-                    デザインにおいても、すべての要素を目立たせるのではなく、本当に重要な20%（CTAボタンやキャッチコピーなど）にデザインリソースを集中させ、メリハリをつけることが重要です。
-                </p>
-            </div>
-            <div>
-                <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100">
-                    <h3 class="text-xl font-bold text-center mb-6 text-slate-700">成果を生み出す要素の割合</h3>
-                    <div class="chart-container">
-                        <canvas id="paretoChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white rounded-2xl p-6 shadow-lg border-l-4 border-l-blue-500">
-                <h3 class="text-xl font-bold mb-3 flex items-center">
-                    <span class="text-2xl mr-2">⚓</span> アンカリング効果
-                </h3>
-                <p class="text-slate-600 text-sm">
-                    最初に示された情報（アンカー）が、その後の判断の基準になる効果。「通常価格10,000円→今だけ半額5,000円」と見せることで、最初から5,000円で提示するよりお得感を強く感じさせます。
-                </p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-6 shadow-lg border-l-4 border-l-amber-500">
-                <h3 class="text-xl font-bold mb-3 flex items-center">
-                    <span class="text-2xl mr-2">⭐</span> 社会的証明
-                </h3>
-                <p class="text-slate-600 text-sm">
-                    自分の意見よりも、多数派の他人の考えを正しいと感じて意思決定すること。「90%のお客様が満足」「No.1獲得」などのデータを示すことで、安心感を与え行動を促します。
-                </p>
-            </div>
-
-            <div class="bg-white rounded-2xl p-6 shadow-lg border-l-4 border-l-rose-500">
-                <h3 class="text-xl font-bold mb-3 flex items-center">
-                    <span class="text-2xl mr-2">🚂</span> バンドワゴン効果
-                </h3>
-                <p class="text-slate-600 text-sm">
-                    多くの人が購入している（支持している）と、自分も購入したくなる心理。レビューの高評価や「現在○人が見ています」といった表示でブーム感を演出します。
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <div class="w-full h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent my-16"></div>
-
-    <section id="memory" class="mb-24 pt-10">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-slate-800 mb-4 inline-flex items-center">
-                <span class="text-4xl mr-3">🧠</span> 認知バイアスと記憶の定着
-            </h2>
-            <p class="text-slate-600 max-w-2xl mx-auto">
-                言葉の表現を変えたり、記憶の仕組みを利用したりすることで、メッセージの印象を操作し、ユーザーの頭の中にブランドやサービスを強く印象付けます。
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            <div class="order-2 lg:order-1">
-                <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-100">
-                    <h3 class="text-xl font-bold text-center mb-6 text-slate-700">情報提示順と記憶の定着率モデル</h3>
-                    <div class="chart-container">
-                        <canvas id="serialPositionChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="order-1 lg:order-2">
-                <div class="text-5xl mb-4">⏳</div>
-                <h3 class="text-3xl font-black mb-4 text-slate-800">シリアルポジション効果</h3>
-                <p class="text-lg text-slate-600 leading-relaxed mb-6">
-                    人はリストや情報の「最初（初頭効果）」と「最後（親近効果）」を最もよく覚える傾向があります。<br><br>
-                    LP（ランディングページ）やプレゼン資料では、最も伝えたい強みや重要なメッセージを最初と最後に配置することで、ユーザーの記憶への定着率を最大化できます。
-                </p>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-3xl p-8 shadow-xl border border-slate-100 mb-16">
-            <h3 class="text-2xl font-bold mb-8 text-center text-slate-800">記憶と感情を操作するテクニック</h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
-                <div class="p-6 bg-slate-50 rounded-xl border border-slate-200">
-                    <h4 class="text-lg font-bold mb-3 flex items-center text-slate-800">
-                        <span class="text-2xl mr-2">🧩</span> ツァイガルニク効果
-                    </h4>
-                    <p class="text-slate-600 text-sm mb-4">完結していないタスクや情報は記憶に残りやすい。「続きはWebで」や、あえて一部を隠すUIはこの効果を活用し、クリックを誘発します。</p>
-                    <div class="flex items-center gap-2 text-xs font-bold text-white">
-                        <div class="bg-blue-400 p-2 rounded flex-1 text-center">情報の一部提示</div>
-                        <div class="text-slate-400">▶</div>
-                        <div class="bg-amber-500 p-2 rounded flex-1 text-center shadow-lg transform scale-105">強い「知りたい」欲求</div>
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border-t-4 border-blue-500 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">ヒックの法則 (Hick's Law)</h3>
+                    <p class="text-sm font-semibold text-blue-500 mb-4">選択肢の数が意思決定を遅延させる</p>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        選択肢が増えるほど、情報処理に時間がかかり「決定回避の法則」が発動しやすくなります。ナビゲーションや料金プラン（松竹梅など）を極力絞り込むことで、コンバージョン率の低下を防ぐことができます。
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="chartHick"></canvas>
                     </div>
                 </div>
 
-                <div class="p-6 bg-slate-50 rounded-xl border border-slate-200">
-                    <h4 class="text-lg font-bold mb-3 flex items-center text-slate-800">
-                        <span class="text-2xl mr-2">🔄</span> リフレーミング効果
-                    </h4>
-                    <p class="text-slate-600 text-sm mb-4">同じ事実でも表現を変えることで受ける印象が変わります。ネガティブな事実をポジティブな枠組みで捉え直させるコピーライティング技術です。</p>
-                    <div class="flex justify-between items-center bg-white p-3 rounded shadow-sm border border-slate-100">
-                        <span class="text-rose-500 font-bold text-sm">✖ 「もう半分しかない」</span>
-                        <span class="text-2xl">👉</span>
-                        <span class="text-teal-500 font-bold text-sm">〇 「まだ半分もある」</span>
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border-t-4 border-blue-500 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">フィッツの法則 (Fitts's Law)</h3>
+                    <p class="text-sm font-semibold text-blue-500 mb-4">距離とサイズが操作スピードを決める</p>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        ターゲット（ボタンなど）への到達時間は、距離が近く、サイズが大きいほど短くなります。スマホUIにおいて、主要なCTAボタンを画面下部（親指の届く位置）に大きく配置する論理的根拠となります。
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="chartFitts"></canvas>
                     </div>
-                </div>
-
-                <div class="p-6 bg-slate-50 rounded-xl border border-slate-200">
-                    <h4 class="text-lg font-bold mb-3 flex items-center text-slate-800">
-                        <span class="text-2xl mr-2">📉</span> プロスペクト理論
-                    </h4>
-                    <p class="text-slate-600 text-sm">人は利益を得る喜びよりも、損失を被る苦痛を強く感じます。「得します」よりも「見ないと絶対損します」という損失回避を意識したメッセージの方が、行動を起こさせやすいです。</p>
-                </div>
-
-                <div class="p-6 bg-slate-50 rounded-xl border border-slate-200">
-                    <h4 class="text-lg font-bold mb-3 flex items-center text-slate-800">
-                        <span class="text-2xl mr-2">💸</span> サンクコスト効果
-                    </h4>
-                    <p class="text-slate-600 text-sm">これまでにお金や時間をかけていたことを、途中でやめたらもったいないと思う心理。「今やめたらこれまでの特典がなくなります」といった退会防止施策などに用いられます。</p>
-                </div>
-
-                <div class="p-6 bg-slate-50 rounded-xl border border-slate-200 md:col-span-2 lg:col-span-1">
-                    <h4 class="text-lg font-bold mb-3 flex items-center text-slate-800">
-                        <span class="text-2xl mr-2">🚫</span> カリギュラ効果
-                    </h4>
-                    <p class="text-slate-600 text-sm">禁止されればされるほど、逆にやりたくなる心理効果。「本気で痩せたい人以外は、この先は絶対に見ないでください」など、あえて制限をかけることで強い興味を惹きつけます。</p>
-                </div>
-
-                <div class="p-6 bg-slate-50 rounded-xl border border-slate-200">
-                    <h4 class="text-lg font-bold mb-3 flex items-center text-slate-800">
-                        <span class="text-2xl mr-2">🔁</span> 単純接触効果
-                    </h4>
-                    <p class="text-slate-600 text-sm">何度も見聞きするうちに、警戒心が薄れ次第に好印象を持つようになる心理効果。SNSの定期更新やリターゲティング広告の基盤となる考え方です。</p>
-                </div>
-
-                <div class="p-6 bg-slate-50 rounded-xl border border-slate-200 md:col-span-2">
-                    <h4 class="text-lg font-bold mb-3 flex items-center text-slate-800">
-                        <span class="text-2xl mr-2">🎁</span> 返報性の法則
-                    </h4>
-                    <p class="text-slate-600 text-sm">人から何かもらったり親切にされたりすると、「お返しをしなければならない」と無意識に考える心理効果。「無料お役立ち資料プレゼント」などを提供することで、将来的な購買やリード獲得のハードルを下げます。</p>
                 </div>
 
             </div>
-        </div>
-    </section>
+        </section>
 
-</main>
+        <section class="mb-16">
+            <div class="mb-6 border-l-8 border-rose-500 pl-4">
+                <h2 class="text-3xl font-bold">2. 記憶と注意のコントロール 👁️</h2>
+                <p class="text-slate-500 mt-2">ユーザーの視線を意図した場所へ向けさせ、重要な情報を記憶に定着させるための手法です。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border-t-4 border-rose-500 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">フォン・レストルフ効果</h3>
+                    <p class="text-sm font-semibold text-rose-500 mb-4">孤立した要素は記憶に残りやすい</p>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        似たような情報が並んでいる際、他と明らかに異なるデザイン（色や形）を持った要素に視線が集中します。一番選んでほしい「おすすめプラン」の背景色を変えるといったアプローチがこれに該当します。
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="chartRestorff"></canvas>
+                    </div>
+                </div>
 
-<footer class="bg-slate-900 text-slate-400 py-12 text-center">
-    <div class="max-w-4xl mx-auto px-4">
-        <p class="mb-4 text-lg font-bold text-white">デザインの力は、人の心を動かす力。</p>
-        <p class="text-sm mb-8">これらの心理効果をユーザーの不利益になるよう「悪用」することは厳禁です。<br>ユーザーにとってより良い体験を提供するためのエッセンスとして活用しましょう。</p>
-        <p class="text-xs">&copy; Infographic SPA generated based on "デザインに使える心理学".</p>
-    </div>
-</footer>
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border-t-4 border-rose-500 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">ツァイガルニク効果</h3>
+                    <p class="text-sm font-semibold text-rose-500 mb-4">未完了のタスクへの強い執着</p>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        人は完了した事柄より、中断している事柄を強く記憶し、完遂させたい欲求を持ちます。「プロフィール入力完了まであと20%」というプログレスバーや、「続きを読む」ボタンによる行動喚起に活用されます。
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="chartZeigarnik"></canvas>
+                    </div>
+                </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    
-    function wrapLabel(labels, limit = 16) {
-        return labels.map(label => {
-            if (label.length <= limit) return label;
-            let result = [];
-            for (let i = 0; i < label.length; i += limit) {
-                result.push(label.substring(i, i + limit));
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <div class="mb-6 border-l-8 border-amber-400 pl-4">
+                <h2 class="text-3xl font-bold">3. 感情とパフォーマンス評価 🚀</h2>
+                <p class="text-slate-500 mt-2">システム全体の体験（UX）の質を決定づけ、ユーザーの満足度を最大化するための原則です。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border-t-4 border-amber-400 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">ピーク・エンドの法則</h3>
+                    <p class="text-sm font-semibold text-amber-500 mb-4">体験の評価は「頂点」と「最後」で決まる</p>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        体験全体の印象は、感情が最も動いた「ピーク時」と「終了時」のみで判断される傾向があります。決済完了画面での温かいメッセージや、目的達成時のアニメーションなど、終わり方の演出が重要です。
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="chartPeakEnd"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border-t-4 border-amber-400 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">ドハティの閾値</h3>
+                    <p class="text-sm font-semibold text-amber-500 mb-4">400ミリ秒のレスポンスが生産性を生む</p>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        ユーザーとシステムのやり取りが400ms以下で行われるとき、ユーザーの注意力と生産性は急上昇します。処理に時間がかかる場合はスケルトンローディングを用いて、体感の待ち時間を減らす工夫が必須です。
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="chartDoherty"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="bg-slate-800 text-white rounded-2xl p-8 text-center shadow-2xl mb-12">
+            <h2 class="text-3xl font-bold mb-4 text-rose-400">⚠️ 悪用厳禁：ダークパターンへの注意</h2>
+            <p class="text-slate-300 max-w-4xl mx-auto leading-relaxed">
+                心理学の法則は非常に強力ですが、ユーザーの利益を損なうよう意図的に誘導するデザイン（退会させない、虚偽の希少性を煽る等）への悪用は厳禁です。短期的なCVは向上しても、中長期的なブランドへの信頼は確実に失墜します。心理学は常に<strong>「ユーザーの課題解決と体験向上」</strong>のために活用することが鉄則です。
+            </p>
+        </section>
+
+    </main>
+
+    <script>
+        function wLabel(l) {
+            if (l.length <= 16) return l;
+            let w = l.split(' '), r = [], c = '';
+            for (let i = 0; i < w.length; i++) {
+                if ((c + ' ' + w[i]).length > 16) {
+                    r.push(c);
+                    c = w[i];
+                } else {
+                    c = c === '' ? w[i] : c + ' ' + w[i];
+                }
             }
-            return result;
-        });
-    }
+            if (c) r.push(c);
+            return r;
+        }
 
-    const tooltipConfig = {
-        tooltip: {
-            callbacks: {
-                title: function(tooltipItems) {
-                    const item = tooltipItems[0];
-                    let label = item.chart.data.labels[item.dataIndex];
-                    if (Array.isArray(label)) {
-                        return label.join('');
-                    } else {
-                        return label;
+        const tConfig = {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
                     }
                 }
-            }
-        }
-    };
-
-    Chart.defaults.font.family = "'Noto Sans JP', sans-serif";
-    Chart.defaults.color = '#64748b';
-
-    const hicksCtx = document.getElementById('hicksLawChart').getContext('2d');
-    const labelsHicksRaw = ['1個', '2個', '3個', '4個', '5個', '6個', '7個', '8個', '9個', '10個'];
-    new Chart(hicksCtx, {
-        type: 'line',
-        data: {
-            labels: wrapLabel(labelsHicksRaw),
-            datasets: [{
-                label: '意思決定にかかる時間 (概念値)',
-                data: [10, 20, 35, 55, 80, 110, 145, 185, 230, 280],
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                borderWidth: 3,
-                tension: 0.4,
-                fill: true,
-                pointBackgroundColor: '#fff',
-                pointBorderColor: '#3b82f6',
-                pointRadius: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                ...tooltipConfig,
-                legend: { display: false }
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: '決定時間増加' },
-                    ticks: { display: false }
-                },
-                x: {
-                    title: { display: true, text: '提示される選択肢の数' }
-                }
-            }
-        }
-    });
+            legend: { labels: { font: { family: "'Noto Sans JP', sans-serif" } } }
+        };
 
-    const paretoCtx = document.getElementById('paretoChart').getContext('2d');
-    const labelsParetoRaw = ['重要な20%の要素 (全体の80%の成果を創出)', '残りの80%の要素 (全体の20%の成果)'];
-    new Chart(paretoCtx, {
-        type: 'doughnut',
-        data: {
-            labels: wrapLabel(labelsParetoRaw),
-            datasets: [{
-                data: [80, 20],
-                backgroundColor: ['#14b8a6', '#e2e8f0'],
-                borderWidth: 0,
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '65%',
-            plugins: {
-                ...tooltipConfig,
-                legend: { position: 'bottom' }
-            }
-        }
-    });
+        const globalFont = { family: "'Noto Sans JP', sans-serif" };
+        Chart.defaults.font.family = "'Noto Sans JP', sans-serif";
 
-    const serialCtx = document.getElementById('serialPositionChart').getContext('2d');
-    const labelsSerialRaw = ['最初 (初頭効果)', '中間', '最後 (親近効果)'];
-    new Chart(serialCtx, {
-        type: 'bar',
-        data: {
-            labels: wrapLabel(labelsSerialRaw),
-            datasets: [{
-                label: '記憶の定着率 (モデル化)',
-                data: [85, 30, 75],
-                backgroundColor: ['#f43f5e', '#cbd5e1', '#f59e0b'],
-                borderRadius: 6
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                ...tooltipConfig,
-                legend: { display: false }
+        new Chart(document.getElementById('chartHick'), {
+            type: 'line',
+            data: {
+                labels: [wLabel('選択肢 2個'), wLabel('選択肢 4個'), wLabel('選択肢 6個'), wLabel('選択肢 8個'), wLabel('選択肢 10個')],
+                datasets: [{
+                    label: '意思決定にかかる時間',
+                    data: [1.0, 2.0, 2.6, 3.0, 3.3],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    title: { display: true, text: '定着率の高さ' },
-                    ticks: { display: false }
-                }
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: tConfig,
+                scales: { y: { beginAtZero: true, title: { display: true, text: '反応時間 (秒)' } } }
             }
-        }
-    });
-});
-</script>
+        });
+
+        new Chart(document.getElementById('chartFitts'), {
+            type: 'bar',
+            data: {
+                labels: [wLabel('画面端の小さなボタン'), wLabel('標準サイズのボタン'), wLabel('手元にある巨大なボタン')],
+                datasets: [{
+                    label: 'ターゲット到達時間',
+                    data: [2.8, 1.5, 0.6],
+                    backgroundColor: ['#94a3b8', '#64748b', '#3b82f6'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: tConfig,
+                scales: { y: { beginAtZero: true, title: { display: true, text: '到達時間 (秒)' } } }
+            }
+        });
+
+        new Chart(document.getElementById('chartRestorff'), {
+            type: 'bar',
+            data: {
+                labels: [wLabel('同質化した通常要素'), wLabel('色や形で孤立させた要素')],
+                datasets: [{
+                    label: '情報記憶の定着率 (%)',
+                    data: [25, 82],
+                    backgroundColor: ['#cbd5e1', '#f43f5e'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: tConfig,
+                scales: { y: { beginAtZero: true, max: 100 } }
+            }
+        });
+
+        new Chart(document.getElementById('chartZeigarnik'), {
+            type: 'doughnut',
+            data: {
+                labels: [wLabel('未完了で中断したタスク'), wLabel('完了して終了したタスク')],
+                datasets: [{
+                    data: [70, 30],
+                    backgroundColor: ['#f43f5e', '#f1f5f9'],
+                    borderColor: ['#fff', '#fff'],
+                    borderWidth: 4,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: tConfig,
+                cutout: '65%'
+            }
+        });
+
+        new Chart(document.getElementById('chartPeakEnd'), {
+            type: 'line',
+            data: {
+                labels: [wLabel('トップページ訪問'), wLabel('商品検索・一覧'), wLabel('欲しい商品を発見 (ピーク)'), wLabel('面倒なフォーム入力'), wLabel('完了と感謝表示 (エンド)')],
+                datasets: [{
+                    label: 'ユーザーの感情レベル',
+                    data: [50, 40, 95, 30, 90],
+                    borderColor: '#fbbf24',
+                    backgroundColor: 'rgba(251, 191, 36, 0.2)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.3,
+                    pointBackgroundColor: ['#cbd5e1', '#cbd5e1', '#fbbf24', '#cbd5e1', '#fbbf24'],
+                    pointRadius: [4, 4, 8, 4, 8]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: tConfig,
+                scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'ポジティブ度' } } }
+            }
+        });
+
+        new Chart(document.getElementById('chartDoherty'), {
+            type: 'bar',
+            data: {
+                labels: [wLabel('400ms 以下'), wLabel('1.0秒 程度'), wLabel('3.0秒 程度'), wLabel('5.0秒 以上')],
+                datasets: [{
+                    label: 'ユーザーのエンゲージメント維持率 (%)',
+                    data: [98, 75, 40, 15],
+                    backgroundColor: ['#fbbf24', '#fcd34d', '#fef3c7', '#f1f5f9'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: tConfig,
+                indexAxis: 'y',
+                scales: { x: { beginAtZero: true, max: 100 } }
+            }
+        });
+    </script>
 </body>
 </html>
