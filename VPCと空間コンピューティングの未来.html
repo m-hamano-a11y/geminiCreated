@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPCと空間コンピューティングの未来</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {
+    background-color: #F8F9FA;
+    color: #2B2D42;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 350px;
+    max-height: 450px;
+}
+@media (max-width: 768px) {
+    .chart-container {
+        height: 250px;
+    }
+}
+.gradient-text {
+    background: linear-gradient(90deg, #4361EE, #F72585);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body class="antialiased pb-20">
+
+<!--
+PALETTE: "Vibrant Tech"
+- Primary: #4361EE (Royal Blue)
+- Secondary: #F72585 (Neon Pink)
+- Accent: #4CC9F0 (Cyan)
+- Background: #F8F9FA (Off-white)
+- Surface: #FFFFFF (White)
+
+PLAN:
+1. Introduction: Overview of VPC and the 3D data explosion.
+2. The VPC Advantage: Radar chart showing performance improvements over traditional methods.
+3. Data Acquisition: Bar chart detailing collection methods and their scales.
+4. Synergies & Applications: 
+   - VPS Synergy: CSS-based process flow.
+   - Voxelization: Doughnut chart of industry applications.
+   - 3DGS Hybrid: Scatter plot comparing visual quality vs spatial accuracy.
+5. Conclusion: Summary of the digital twin ecosystem.
+
+VIZ CHOICES:
+- Radar Chart -> Compare -> Demonstrates the multi-dimensional leap in capability (Speed, Manageability, Accuracy, Cloud). Chart.js (Canvas).
+- Horizontal Bar -> Organize -> Ranks data acquisition methods by scale. Chart.js (Canvas).
+- CSS Flow Diagram -> Organize -> Explains the VPC + VPS relationship without SVG/Mermaid. HTML/Tailwind.
+- Doughnut Chart -> Inform -> Shows the diverse distribution of Voxel use cases. Chart.js (Canvas).
+- Scatter Plot -> Relationships -> Maps Accuracy vs Visual Quality for VPC, 3DGS, and Hybrid approaches. Chart.js (Canvas).
+
+CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+-->
+
+<header class="bg-white shadow-sm py-12 mb-10 border-b-4 border-[#F72585]">
+    <div class="container mx-auto px-6 max-w-6xl text-center">
+        <div class="text-6xl mb-4">🌐</div>
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight"><span class="gradient-text">VPC</span> と空間コンピューティングの未来</h1>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            数十億点・数テラバイトに及ぶ巨大な3D点群データを「軽く、賢く」扱う革新技術「Virtual Point Cloud（VPC）」。
+            この基盤技術と、VPS、ボクセル化、3DGSといった最先端テクノロジーが交差するとき、現実空間とデジタル空間のシームレスな融合（デジタルツイン）が実現します。
+        </p>
+    </div>
+</header>
+
+<main class="container mx-auto px-6 max-w-6xl">
+
+    <section class="mb-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 card-hover border-l-8 border-[#4361EE]">
+            <h2 class="text-3xl font-bold mb-6 text-[#2B2D42]">1. VPC（仮想点群）のパラダイムシフト</h2>
+            <p class="mb-8 text-gray-700 leading-relaxed">
+                従来の点群データ管理は、ファイルの分割による管理の手間や、境界線のズレ、そして圧倒的なデータ量による処理遅延という課題を抱えていました。VPCは、無数のファイルを「1つのJSON設計図（.vpc）」として仮想統合し、COPC（クラウド最適化フォーマット）と連携することで、これらの制約を完全に打ち破ります。
+            </p>
+            <div class="chart-container">
+                <canvas id="vpcAdvantageChart"></canvas>
+            </div>
+            <p class="mt-6 text-sm text-gray-500 text-center font-medium">図：従来手法とVPCテクノロジーのパフォーマンス比較</p>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 card-hover border-l-8 border-[#4CC9F0]">
+            <h2 class="text-3xl font-bold mb-6 text-[#2B2D42]">2. 3D世界のキャプチャ：データ取得スケール</h2>
+            <p class="mb-8 text-gray-700 leading-relaxed">
+                VPCの基盤となる高精度な点群データは、用途とスケールに応じて様々なデバイスで取得されます。国家規模の地形測量から、個人のiPhoneに搭載されたLiDARセンサーまで、多様なレイヤーのデータが統合されることで、より解像度の高いデジタルツインが構築されます。
+            </p>
+            <div class="chart-container">
+                <canvas id="acquisitionChart"></canvas>
+            </div>
+            <p class="mt-6 text-sm text-gray-500 text-center font-medium">図：各種データ取得方法の相対的なカバー範囲（概念スケール）</p>
+        </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16">
+        <section class="bg-white rounded-2xl shadow-lg p-8 card-hover flex flex-col border-t-8 border-[#F72585]">
+            <h2 class="text-2xl font-bold mb-4 text-[#2B2D42]">3. VPC × VPS：高精度ARの実現</h2>
+            <p class="mb-8 text-gray-700 leading-relaxed flex-grow">
+                GPSの誤差を克服するため、クラウド上の巨大なVPCデータを基盤とし、スマートフォンのカメラ映像を照合する「VPS（Visual Positioning System）」が活躍します。これにより、ミリ単位での現在地・方角の特定が可能となり、街中にピタリと重なるARナビゲーションが実現します。
+            </p>
+            <div class="bg-[#F8F9FA] p-6 rounded-xl border border-gray-200">
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    <div class="w-full bg-white p-4 rounded-lg shadow-sm text-center border-2 border-[#4361EE]">
+                        <div class="text-3xl mb-2">☁️</div>
+                        <div class="font-bold text-[#4361EE]">VPCデータ基盤</div>
+                        <div class="text-xs text-gray-500">クラウド上の広域3Dマップ</div>
+                    </div>
+                    <div class="text-[#F72585] text-2xl font-black">＋</div>
+                    <div class="w-full bg-white p-4 rounded-lg shadow-sm text-center border-2 border-[#4CC9F0]">
+                        <div class="text-3xl mb-2">📱</div>
+                        <div class="font-bold text-[#4CC9F0]">VPSエンジン</div>
+                        <div class="text-xs text-gray-500">スマホカメラでのリアルタイム照合</div>
+                    </div>
+                    <div class="text-[#F72585] text-2xl font-black">⬇</div>
+                    <div class="w-full bg-[#F72585] p-4 rounded-lg shadow-md text-center text-white">
+                        <div class="text-3xl mb-2">🎯</div>
+                        <div class="font-bold text-xl">ミリ単位の高精度AR体験</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 card-hover flex flex-col border-t-8 border-[#F72585]">
+            <h2 class="text-2xl font-bold mb-4 text-[#2B2D42]">4. VPC × ボクセル：空間の軽量化と解析</h2>
+            <p class="mb-8 text-gray-700 leading-relaxed">
+                点群を3次元の箱（ボクセル）に変換することで、「そこに物体があるか・ないか」という情報に整理されます。これによりデータが劇的に軽量化され、自動運転の障害物検知、土量計算、風環境シミュレーションなど、高度な空間解析がリアルタイムで可能になります。
+            </p>
+            <div class="chart-container flex-grow flex items-center justify-center">
+                <canvas id="voxelChart"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <section class="mb-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 card-hover border-l-8 border-[#4361EE]">
+            <h2 class="text-3xl font-bold mb-6 text-[#2B2D42]">5. VPC × 3DGS：究極のハイブリッド3D</h2>
+            <p class="mb-8 text-gray-700 leading-relaxed">
+                AIによる超リアルなレンダリング技術「3DGS（3D Gaussian Splatting）」は写真データが必須ですが、学習の初期段階でVPCの正確な座標データ（空間の骨格）を入力することで、計算時間の大幅短縮と形状崩れの補正が可能になります。正確な「座標」と美麗な「質感」の最強の組み合わせです。
+            </p>
+            <div class="chart-container">
+                <canvas id="hybridChart"></canvas>
+            </div>
+            <p class="mt-6 text-sm text-gray-500 text-center font-medium">図：各アプローチにおける空間精度と視覚的品質のマッピング</p>
+        </div>
+    </section>
+
+</main>
+
+<script>
+function wrapLabel(label) {
+    if (label.length <= 16) return label;
+    const words = label.split(' ');
+    let lines = [];
+    let currentLine = words[0];
+    for (let i = 1; i < words.length; i++) {
+        if (currentLine.length + 1 + words[i].length <= 16) {
+            currentLine += ' ' + words[i];
+        } else {
+            lines.push(currentLine);
+            currentLine = words[i];
+        }
+    }
+    lines.push(currentLine);
+    return lines;
+}
+
+const customTooltipConfig = {
+    plugins: {
+        tooltip: {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        }
+    }
+};
+
+const vpcAdvantageCtx = document.getElementById('vpcAdvantageChart').getContext('2d');
+new Chart(vpcAdvantageCtx, {
+    type: 'radar',
+    data: {
+        labels: ['Processing Speed & Rendering', 'Data File Manageability', 'Spatial Accuracy & Integration', 'Cloud Streaming Readiness'].map(wrapLabel),
+        datasets: [{
+            label: 'Traditional Processing',
+            data: [3, 2, 7, 2],
+            borderColor: '#2B2D42',
+            backgroundColor: 'rgba(43, 45, 66, 0.1)',
+            pointBackgroundColor: '#2B2D42',
+            borderWidth: 2
+        }, {
+            label: 'VPC Technology',
+            data: [9, 10, 9, 10],
+            borderColor: '#F72585',
+            backgroundColor: 'rgba(247, 37, 133, 0.4)',
+            pointBackgroundColor: '#F72585',
+            borderWidth: 3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            r: {
+                min: 0,
+                max: 10,
+                ticks: { display: false },
+                grid: { color: 'rgba(0,0,0,0.05)' },
+                pointLabels: {
+                    font: { size: 13, family: "'Helvetica Neue', 'Arial', sans-serif", weight: 'bold' },
+                    color: '#2B2D42'
+                }
+            }
+        },
+        ...customTooltipConfig
+    }
+});
+
+const acquisitionCtx = document.getElementById('acquisitionChart').getContext('2d');
+new Chart(acquisitionCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Airborne LiDAR (Aircraft)', 'Mobile Mapping (Vehicles)', 'UAV LiDAR (Drones)', 'Consumer Sensors (iPhone)'].map(wrapLabel),
+        datasets: [{
+            label: 'Relative Area Coverage Capacity',
+            data: [100, 60, 30, 10],
+            backgroundColor: [
+                '#4361EE',
+                '#4CC9F0',
+                '#F72585',
+                '#FFB703'
+            ],
+            borderRadius: 6
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                beginAtZero: true,
+                grid: { display: false },
+                ticks: { display: false }
+            },
+            y: {
+                grid: { display: false },
+                ticks: { font: { weight: 'bold' }, color: '#2B2D42' }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            ...customTooltipConfig.plugins
+        }
+    }
+});
+
+const voxelCtx = document.getElementById('voxelChart').getContext('2d');
+new Chart(voxelCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Autonomous Pathfinding', 'Civil Earthwork Calculation', 'Urban Wind/Radio Simulation', 'Forestry Biomass Estimation'].map(wrapLabel),
+        datasets: [{
+            data: [25, 25, 25, 25],
+            backgroundColor: [
+                '#4361EE',
+                '#4CC9F0',
+                '#F72585',
+                '#2B2D42'
+            ],
+            borderWidth: 0,
+            hoverOffset: 10
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: {
+            legend: { position: 'bottom', labels: { font: { size: 12 } } },
+            ...customTooltipConfig.plugins
+        }
+    }
+});
+
+const hybridCtx = document.getElementById('hybridChart').getContext('2d');
+new Chart(hybridCtx, {
+    type: 'scatter',
+    data: {
+        labels: ['VPC Only (Raw Point Cloud)', '3DGS Only (Photos Only)', 'VPC + 3DGS Hybrid Model'].map(wrapLabel),
+        datasets: [{
+            label: 'Technology Profiling',
+            data: [
+                {x: 95, y: 30},
+                {x: 40, y: 95},
+                {x: 95, y: 95}
+            ],
+            backgroundColor: ['#4CC9F0', '#F72585', '#4361EE'],
+            pointRadius: 15,
+            pointHoverRadius: 18
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                title: { display: true, text: 'Spatial & Coordinate Accuracy', font: { weight: 'bold' } },
+                min: 0, max: 110,
+                grid: { color: 'rgba(0,0,0,0.05)' }
+            },
+            y: {
+                title: { display: true, text: 'Visual & Photorealistic Quality', font: { weight: 'bold' } },
+                min: 0, max: 110,
+                grid: { color: 'rgba(0,0,0,0.05)' }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    },
+                    label: function(context) {
+                        return `Accuracy: ${context.raw.x}, Visuals: ${context.raw.y}`;
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+</body>
+</html>
