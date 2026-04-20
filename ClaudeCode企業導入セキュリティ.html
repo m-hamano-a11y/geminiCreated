@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code 企業導入セキュリティ・ダッシュボード</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Teal (Safety) and Rose (Warning) Accents -->
+    <!-- Application Structure Plan: A tabbed dashboard interface dividing the report into four core pillars: Privacy, Environment, Compliance, and Best Practices. This structure transforms a static report into an interactive exploration tool, allowing decision-makers to quickly locate relevant security domains, view comparative data via charts, and interact with best-practice checklists without overwhelming them with a wall of text. -->
+    <!-- Visualization & Content Choices: Privacy Data -> Horizontal Bar Chart comparing data retention periods (shows stark contrast between Safe/Unsafe plans) -> Chart.js. Compliance -> Radar Chart for certifications -> Chart.js. Environment & Practices -> Interactive HTML/Tailwind cards and toggle lists for procedural information -> Vanilla JS. Confirming NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; background-color: #fafaf9; color: #292524; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        .tab-active { border-bottom-width: 4px; border-color: #0d9488; color: #0f766e; font-weight: bold; }
+        .tab-inactive { border-bottom-width: 4px; border-color: transparent; color: #78716c; }
+        .tab-inactive:hover { border-color: #d6d3d1; color: #44403c; }
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card-hover { transition: all 0.2s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-color: #0d9488; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-stone-900 text-stone-50 py-6 px-4 md:px-8 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Claude Code 企業導入セキュリティ解析</h1>
+                <p class="text-stone-400 mt-2 text-sm md:text-base">自律型コーディングエージェントの安全な活用ガイドライン (2026年版)</p>
+            </div>
+            <div class="mt-4 md:mt-0 bg-stone-800 px-4 py-2 rounded-lg text-sm font-mono text-teal-400 border border-stone-700">
+                STATUS: SECURE DEPLOYMENT READY
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4 md:px-8 py-8">
+        
+        <nav class="flex flex-wrap border-b border-stone-200 mb-8" id="tabs">
+            <button onclick="switchTab('privacy')" id="tab-privacy" class="tab-active py-3 px-6 text-sm md:text-base cursor-pointer focus:outline-none">🔒 データプライバシー</button>
+            <button onclick="switchTab('environment')" id="tab-environment" class="tab-inactive py-3 px-6 text-sm md:text-base cursor-pointer focus:outline-none">💻 実行環境と権限</button>
+            <button onclick="switchTab('compliance')" id="tab-compliance" class="tab-inactive py-3 px-6 text-sm md:text-base cursor-pointer focus:outline-none">🏛️ コンプライアンス</button>
+            <button onclick="switchTab('practices')" id="tab-practices" class="tab-inactive py-3 px-6 text-sm md:text-base cursor-pointer focus:outline-none">✅ 導入ベストプラクティス</button>
+        </nav>
+
+        <section id="section-privacy" class="fade-in block">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-stone-200 mb-8">
+                <h2 class="text-xl md:text-2xl font-bold mb-4 text-stone-800">データプライバシーとAI学習への利用制限</h2>
+                <p class="text-stone-600 mb-6 leading-relaxed">
+                    このセクションでは、Claude Codeに入力された自社のソースコードや機密情報が、Anthropic社のAIモデル学習にどのように扱われるかを解説します。以下のグラフとパネルを操作して、企業利用におけるプランごとのリスクとデータ保持期間の違いを把握し、適切な認証経路を選択してください。
+                </p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div class="bg-stone-50 p-6 rounded-lg border border-stone-200">
+                        <h3 class="font-bold text-stone-700 mb-4 text-center">プラン別 データ保持期間比較 (最大日数)</h3>
+                        <div class="chart-container">
+                            <canvas id="privacyChart"></canvas>
+                        </div>
+                        <p class="text-xs text-stone-500 mt-4 text-center">※個人向けプランは最長5年間（1825日）保持され、デフォルトで学習利用されます。</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-teal-50 border-l-4 border-teal-500 p-5 rounded-r-lg">
+                            <div class="flex items-center mb-2">
+                                <span class="text-xl mr-2">✅</span>
+                                <h3 class="font-bold text-teal-900">安全（企業向け推奨）</h3>
+                            </div>
+                            <p class="text-sm text-teal-800 mb-2 font-semibold">対象: API、Team、Enterpriseプラン</p>
+                            <ul class="list-disc list-inside text-sm text-teal-900 space-y-1">
+                                <li>入力データは**モデル学習に一切使用されません**。</li>
+                                <li>データ保持期間は標準で30日間。</li>
+                                <li>Enterprise契約でデータ保持なし(ZDR)も可能。</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-rose-50 border-l-4 border-rose-500 p-5 rounded-r-lg">
+                            <div class="flex items-center mb-2">
+                                <span class="text-xl mr-2">⚠️</span>
+                                <h3 class="font-bold text-rose-900">要注意（業務利用非推奨）</h3>
+                            </div>
+                            <p class="text-sm text-rose-800 mb-2 font-semibold">対象: Free、Pro、Maxプラン (個人向け)</p>
+                            <ul class="list-disc list-inside text-sm text-rose-900 space-y-1">
+                                <li>デフォルトで**AIの学習に利用されます**。</li>
+                                <li>最長5年間のデータ保持。</li>
+                                <li>オプトアウトは可能だが社内統制が困難。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-environment" class="fade-in hidden">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-stone-200 mb-8">
+                <h2 class="text-xl md:text-2xl font-bold mb-4 text-stone-800">ローカル実行環境と権限管理</h2>
+                <p class="text-stone-600 mb-6 leading-relaxed">
+                    Claude Codeはターミナル上で自律的に動作する強力なCLIツールです。このセクションでは、システムやソースコードを意図しない変更から守るための3つの強力な保護機能について説明します。各カードをクリックして、詳細な機能仕様を確認してください。
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-stone-50 border border-stone-200 p-6 rounded-lg cursor-pointer card-hover" onclick="showEnvDetail('hitl')">
+                        <div class="text-3xl mb-3 text-teal-600">👤</div>
+                        <h3 class="font-bold text-stone-800 mb-2">Human-in-the-loop</h3>
+                        <p class="text-sm text-stone-600">コマンド実行の承認システム。破壊的操作を未然に防ぎます。</p>
+                    </div>
+                    <div class="bg-stone-50 border border-stone-200 p-6 rounded-lg cursor-pointer card-hover" onclick="showEnvDetail('ignore')">
+                        <div class="text-3xl mb-3 text-teal-600">🛡️</div>
+                        <h3 class="font-bold text-stone-800 mb-2">.claudeignore</h3>
+                        <p class="text-sm text-stone-600">機密ファイルへのアクセスを強制的に遮断する除外設定です。</p>
+                    </div>
+                    <div class="bg-stone-50 border border-stone-200 p-6 rounded-lg cursor-pointer card-hover" onclick="showEnvDetail('rule')">
+                        <div class="text-3xl mb-3 text-teal-600">📄</div>
+                        <h3 class="font-bold text-stone-800 mb-2">CLAUDE.md</h3>
+                        <p class="text-sm text-stone-600">プロジェクト固有のルールを自然言語でAIに指示・徹底させます。</p>
+                    </div>
+                </div>
+
+                <div id="env-detail-container" class="bg-stone-800 text-stone-100 p-6 rounded-lg hidden border-l-4 border-teal-500">
+                    <h3 id="env-detail-title" class="text-xl font-bold text-teal-400 mb-3"></h3>
+                    <p id="env-detail-desc" class="text-stone-300 leading-relaxed text-sm md:text-base"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-compliance" class="fade-in hidden">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-stone-200 mb-8">
+                <h2 class="text-xl md:text-2xl font-bold mb-4 text-stone-800">インフラストラクチャとコンプライアンス</h2>
+                <p class="text-stone-600 mb-6 leading-relaxed">
+                    エンタープライズ環境での採用基準となる、Anthropic社のセキュリティ認証取得状況と、サードパーティクラウドを活用したセキュアなアーキテクチャについて解説します。高いセキュリティ水準が求められるプロジェクトでの導入可否の判断材料として活用してください。
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="font-bold text-lg text-stone-800 mb-4 border-b pb-2">取得済みセキュリティ認証</h3>
+                        <ul class="space-y-4 mb-6">
+                            <li class="flex items-start">
+                                <span class="text-teal-600 mr-3 mt-1">✓</span>
+                                <div>
+                                    <strong class="block text-stone-800">SOC 2 Type II</strong>
+                                    <span class="text-sm text-stone-600">内部統制とセキュリティの有効性を証明。</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-teal-600 mr-3 mt-1">✓</span>
+                                <div>
+                                    <strong class="block text-stone-800">ISO 27001</strong>
+                                    <span class="text-sm text-stone-600">情報セキュリティマネジメントシステムの国際規格。</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-teal-600 mr-3 mt-1">✓</span>
+                                <div>
+                                    <strong class="block text-stone-800">ISO/IEC 42001</strong>
+                                    <span class="text-sm text-stone-600">AIマネジメントシステムに関する厳格な基準。</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-teal-600 mr-3 mt-1">✓</span>
+                                <div>
+                                    <strong class="block text-stone-800">HIPAA</strong>
+                                    <span class="text-sm text-stone-600">医療情報の保護基準。BAA（事業提携契約）対応可能。</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-stone-50 p-6 rounded-lg border border-stone-200">
+                        <h3 class="font-bold text-lg text-stone-800 mb-4 text-center">クラウドプロバイダ連携によるセキュリティ強化</h3>
+                        <div class="flex justify-center mb-4 text-4xl space-x-4">
+                            <span>☁️</span> <span>🤝</span> <span>🤖</span>
+                        </div>
+                        <p class="text-sm text-stone-700 leading-relaxed mb-4 text-center">
+                            AWS Bedrock や Google Cloud Vertex AI 経由でClaudeを利用することで、プロンプトデータがAnthropic社に直接送信されません。
+                        </p>
+                        <div class="bg-white p-4 border border-stone-200 rounded text-sm text-stone-600 font-mono text-center shadow-inner">
+                            自社VPC内 ↔ (Bedrock / Vertex AI) ↔ Claude Model
+                        </div>
+                        <p class="text-xs text-stone-500 mt-4 text-center">自社のクラウドアカウント内でデータガバナンスを完結させるセキュアな構成が可能です。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-practices" class="fade-in hidden">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-stone-200 mb-8">
+                <h2 class="text-xl md:text-2xl font-bold mb-4 text-stone-800">社内導入に向けたベストプラクティス</h2>
+                <p class="text-stone-600 mb-6 leading-relaxed">
+                    これまでの情報を踏まえ、安全にClaude Codeを社内展開するための具体的な推奨アクション・リストを提供します。各項目をクリックして展開し、自社の導入計画のチェックリストとしてご活用ください。
+                </p>
+
+                <div class="space-y-4">
+                    <div class="border border-stone-200 rounded-lg overflow-hidden">
+                        <button onclick="toggleFaq('faq1')" class="w-full text-left px-6 py-4 bg-stone-50 hover:bg-stone-100 font-bold text-stone-800 flex justify-between items-center focus:outline-none">
+                            1. 商用API / Enterpriseプランの強制
+                            <span id="icon-faq1" class="text-stone-400">▼</span>
+                        </button>
+                        <div id="content-faq1" class="hidden px-6 py-4 bg-white text-stone-600 text-sm md:text-base border-t border-stone-200">
+                            従業員個人のProアカウントでの利用を明示的に禁止します。会社が一元管理するAPIキー、またはAWS Bedrock / GCP Vertex AIのエンドポイント経由でのみツールを利用するよう、社内規程を定めてください。これによりデータ学習のリスクを根本から排除します。
+                        </div>
+                    </div>
+
+                    <div class="border border-stone-200 rounded-lg overflow-hidden">
+                        <button onclick="toggleFaq('faq2')" class="w-full text-left px-6 py-4 bg-stone-50 hover:bg-stone-100 font-bold text-stone-800 flex justify-between items-center focus:outline-none">
+                            2. サンドボックス / Dev Containerの活用
+                            <span id="icon-faq2" class="text-stone-400">▼</span>
+                        </button>
+                        <div id="content-faq2" class="hidden px-6 py-4 bg-white text-stone-600 text-sm md:text-base border-t border-stone-200">
+                            Claude Codeが誤ってローカルPCのホストシステムファイルを破壊したり、悪意ある生成コードを実行したりするリスクを防ぐため、Dockerコンテナ内（Dev Containersの活用など）や、完全に隔離された仮想開発環境でのみClaude Codeを実行させるアーキテクチャの標準化を強く推奨します。
+                        </div>
+                    </div>
+
+                    <div class="border border-stone-200 rounded-lg overflow-hidden">
+                        <button onclick="toggleFaq('faq3')" class="w-full text-left px-6 py-4 bg-stone-50 hover:bg-stone-100 font-bold text-stone-800 flex justify-between items-center focus:outline-none">
+                            3. 機密情報除外 (.claudeignore) の標準化
+                            <span id="icon-faq3" class="text-stone-400">▼</span>
+                        </button>
+                        <div id="content-faq3" class="hidden px-6 py-4 bg-white text-stone-600 text-sm md:text-base border-t border-stone-200">
+                            全社共通の `.claudeignore` テンプレートファイルを作成し、すべての開発プロジェクトのルートディレクトリへの配置を義務付けてください。`.env`ファイル、クラウド認証情報のJSON、本番のデータベースダンプファイルなどが誤って読み取られない仕組みを構築します。
+                        </div>
+                    </div>
+
+                    <div class="border border-stone-200 rounded-lg overflow-hidden">
+                        <button onclick="toggleFaq('faq4')" class="w-full text-left px-6 py-4 bg-stone-50 hover:bg-stone-100 font-bold text-stone-800 flex justify-between items-center focus:outline-none">
+                            4. 継続的なコードレビューの維持
+                            <span id="icon-faq4" class="text-stone-400">▼</span>
+                        </button>
+                        <div id="content-faq4" class="hidden px-6 py-4 bg-white text-stone-600 text-sm md:text-base border-t border-stone-200">
+                            AIエージェントのコード生成能力が向上しても、最終的なコミットやデプロイの前には、必ず人間のエンジニアがプルリクエストをレビューするプロセスを維持してください。論理的バグやビジネスロジックの脆弱性を防ぐための最後の砦となります。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-blue-50 p-5 rounded-lg border border-blue-200">
+                    <h3 class="font-bold text-blue-900 mb-2">💡 補足情報: Claude Code Security (2026年プレビュー)</h3>
+                    <p class="text-sm text-blue-800">
+                        2026年2月頃より提供開始されたエンタープライズ向け脆弱性スキャンツールです。Web上でリポジトリ全体をスキャンし、AIが文脈を理解して論理バグや脆弱性を検知・パッチ提案を行います。CLIツール本体とは別の監査目的機能ですが、併用することで開発ライフサイクル全体のセキュリティを向上させることが期待されます。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 py-6 text-center text-sm mt-auto">
+        <p>Source Data: Claude Code 企業導入におけるセキュリティ調査レポート (2026)</p>
+    </footer>
+
+    <script>
+        const sections = ['privacy', 'environment', 'compliance', 'practices'];
+        let chartInstance = null;
+
+        function switchTab(activeId) {
+            sections.forEach(id => {
+                const tab = document.getElementById(`tab-${id}`);
+                const section = document.getElementById(`section-${id}`);
+                
+                if (id === activeId) {
+                    tab.classList.replace('tab-inactive', 'tab-active');
+                    section.classList.remove('hidden');
+                    section.classList.add('block');
+                    if(activeId === 'privacy' && !chartInstance) {
+                        initPrivacyChart();
+                    }
+                } else {
+                    tab.classList.replace('tab-active', 'tab-inactive');
+                    section.classList.remove('block');
+                    section.classList.add('hidden');
+                }
+            });
+        }
+
+        function initPrivacyChart() {
+            const ctx = document.getElementById('privacyChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Enterprise (ZDR)', 'API / Team', 'Pro / Max (個人)'],
+                    datasets: [{
+                        label: 'データ保持日数',
+                        data: [0, 30, 1825],
+                        backgroundColor: [
+                            'rgba(20, 184, 166, 0.8)', 
+                            'rgba(13, 148, 136, 0.8)', 
+                            'rgba(244, 63, 94, 0.8)'  
+                        ],
+                        borderColor: [
+                            'rgb(20, 184, 166)',
+                            'rgb(13, 148, 136)',
+                            'rgb(244, 63, 94)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed.x !== null) {
+                                        if(context.parsed.x === 0) label += '保持なし (0日)';
+                                        else if(context.parsed.x === 1825) label += '5年間 (1825日)';
+                                        else label += context.parsed.x + '日間';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: '保持日数 (日)' },
+                            max: 1900
+                        }
+                    }
+                }
+            });
+        }
+
+        const envDetails = {
+            'hitl': {
+                title: '承認システム (Human-in-the-loop)',
+                desc: 'Claude Codeは自律的ですが、無制限ではありません。機密性の高い操作や、システムに変更を加える可能性のあるコマンド（`bash`スクリプトの実行、npm/pip等のパッケージのインストール、Gitでのコミットやプッシュ操作など）を実行しようとする直前に、実行を一時停止します。ターミナル上で必ずユーザーの明示的な承認（y/N入力）が求められます。ユーザー設定により「常に許可」と「都度確認」をコマンド単位で細かく制御可能です。'
+            },
+            'ignore': {
+                title: 'アクセス除外設定 (.claudeignore)',
+                desc: 'Gitの `.gitignore` と全く同じ概念です。プロジェクトのルートディレクトリに `.claudeignore` ファイルを配置し、ディレクトリパスやファイル名パターンを記述することで、Claude Codeがそれらのファイルにアクセス（読み取り・書き込み）することを完全にブロックできます。環境変数ファイル（.env）、AWS/GCP認証情報、顧客データが含まれるローカルのCSVやデータベースダンプファイルなどは、必ずここに指定する必要があります。'
+            },
+            'rule': {
+                title: 'プロジェクトルール (CLAUDE.md)',
+                desc: 'プロジェクトのルートに `CLAUDE.md` というマークダウンファイルを配置することで、AIに対する挙動のルールを自然言語で指示できます。例えば、「本番データベースの接続文字列は絶対に検索しないこと」「UIコンポーネントはReactではなく必ず指定の独自ライブラリを使用すること」などを記述します。ただし、これはプロンプトを通じた指示レベルであり、`.claudeignore` のような強制的なシステムロックではないため、アクセス制御目的での単独使用には注意が必要です。'
+            }
+        };
+
+        function showEnvDetail(id) {
+            const container = document.getElementById('env-detail-container');
+            const title = document.getElementById('env-detail-title');
+            const desc = document.getElementById('env-detail-desc');
+            
+            title.textContent = envDetails[id].title;
+            desc.innerHTML = envDetails[id].desc.replace(/`([^`]+)`/g, '<span class="bg-stone-700 text-teal-300 px-1 rounded font-mono text-sm">$1</span>');
+            
+            container.classList.remove('hidden');
+            container.classList.remove('fade-in');
+            void container.offsetWidth; 
+            container.classList.add('fade-in');
+        }
+
+        function toggleFaq(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '▲';
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '▼';
+            }
+        }
+
+        window.onload = () => {
+            initPrivacyChart();
+        };
+    </script>
+</body>
+</html>
